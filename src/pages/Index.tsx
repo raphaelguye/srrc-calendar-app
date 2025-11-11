@@ -113,7 +113,7 @@ const Index = () => {
           />
         )}
 
-        {!isLoading && !error && filteredEvents && (
+        {!isLoading && !error && (
           <>
             {filteredEvents.length === 0 ? (
               <div className="text-center py-16">
