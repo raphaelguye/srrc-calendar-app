@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import EventCard from "@/components/EventCard";
 import SearchBar from "@/components/SearchBar";
-import FilterToggle from "@/components/FilterToggle";
 import EventStats from "@/components/EventStats";
 import LoadingState from "@/components/LoadingState";
 import ErrorState from "@/components/ErrorState";
@@ -20,32 +19,13 @@ const API_BASE_URL = "https://srrc-calendar-api-production-4112.up.railway.app/a
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [showUpcomingOnly, setShowUpcomingOnly] = useState(true);
 
-  // Fetch all events
-  const { data: allEvents, isLoading: allLoading, error: allError, refetch: refetchAll } = useQuery({
-    queryKey: ["events", "all"],
-    queryFn: async () => {
-      const response = await fetch(`${API_BASE_URL}/events`);
-      if (!response.ok) throw new Error("Failed to fetch all events");
-      const json = await response.json();
-      const arr = Array.isArray(json)
-        ? json
-        : Array.isArray(json?.data)
-        ? json.data
-        : Array.isArray(json?.events)
-        ? json.events
-        : [];
-      return arr as Event[];
-    },
-  });
-
-  // Fetch upcoming events
-  const { data: upcomingEvents, isLoading: upcomingLoading, error: upcomingError, refetch: refetchUpcoming } = useQuery({
+  // Fetch upcoming events only
+  const { data: upcomingEvents, isLoading, error, refetch } = useQuery({
     queryKey: ["events", "upcoming"],
     queryFn: async () => {
       const response = await fetch(`${API_BASE_URL}/events/upcoming`);
-      if (!response.ok) throw new Error("Failed to fetch upcoming events");
+      if (!response.ok) throw new Error("Échec du chargement des événements");
       const json = await response.json();
       const arr = Array.isArray(json)
         ? json
@@ -58,12 +38,8 @@ const Index = () => {
     },
   });
 
-  const displayEvents = showUpcomingOnly ? upcomingEvents : allEvents;
-  const isLoading = showUpcomingOnly ? upcomingLoading : allLoading;
-  const error = showUpcomingOnly ? upcomingError : allError;
-
   const filteredEvents = useMemo(() => {
-    const base: Event[] = Array.isArray(displayEvents) ? displayEvents : [];
+    const base: Event[] = Array.isArray(upcomingEvents) ? upcomingEvents : [];
 
     if (!searchQuery.trim()) return base;
 
@@ -74,15 +50,7 @@ const Index = () => {
         event.location.toLowerCase().includes(query) ||
         event.organizer.toLowerCase().includes(query)
     );
-  }, [displayEvents, searchQuery]);
-
-  const handleRetry = () => {
-    if (showUpcomingOnly) {
-      refetchUpcoming();
-    } else {
-      refetchAll();
-    }
-  };
+  }, [upcomingEvents, searchQuery]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -103,20 +71,14 @@ const Index = () => {
         {/* Stats Section */}
         <div className="flex justify-center">
           <EventStats
-            totalEvents={allEvents?.length || 0}
+            totalEvents={upcomingEvents?.length || 0}
             upcomingEvents={upcomingEvents?.length || 0}
           />
         </div>
 
-        {/* Search and Filter */}
-        <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
+        {/* Search */}
+        <div className="flex justify-center">
           <SearchBar value={searchQuery} onChange={setSearchQuery} />
-          <div className="w-full lg:w-auto lg:min-w-[320px]">
-            <FilterToggle
-              showUpcomingOnly={showUpcomingOnly}
-              onToggle={() => setShowUpcomingOnly(!showUpcomingOnly)}
-            />
-          </div>
         </div>
 
         {/* Events Display */}
@@ -125,7 +87,7 @@ const Index = () => {
         {error && (
           <ErrorState
             message={(error as Error).message}
-            onRetry={handleRetry}
+            onRetry={refetch}
           />
         )}
 
@@ -143,7 +105,7 @@ const Index = () => {
               <>
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-2xl font-semibold text-foreground">
-                    {searchQuery ? "Résultats de recherche" : showUpcomingOnly ? "Événements à venir" : "Tous les événements"}
+                    {searchQuery ? "Résultats de recherche" : "Événements à venir"}
                   </h2>
                   <span className="text-sm text-muted-foreground font-medium">
                     {filteredEvents.length} {filteredEvents.length === 1 ? "événement" : "événements"}
