@@ -16,8 +16,16 @@ interface EventCardProps {
 
 const EventCard = ({ event }: EventCardProps) => {
   const formatDate = (dateString: string) => {
+    if (!dateString) return 'Date non disponible';
+    
     const date = new Date(dateString);
-    return new Intl.DateTimeFormat('de-CH', {
+    
+    // Check if date is valid
+    if (isNaN(date.getTime())) {
+      return dateString; // Return original string if invalid
+    }
+    
+    return new Intl.DateTimeFormat('fr-FR', {
       day: '2-digit',
       month: 'long',
       year: 'numeric'
