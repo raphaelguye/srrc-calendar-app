@@ -61,7 +61,7 @@ const Index = () => {
             Calendrier SRRC
           </h1>
           <p className="text-center text-lg opacity-90">
-            Swiss Rock'n'Roll Confederation
+            Swiss Rock'n'Roll
           </p>
         </div>
       </header>
