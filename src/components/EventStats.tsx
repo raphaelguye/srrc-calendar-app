@@ -14,7 +14,7 @@ const EventStats = ({ totalEvents, upcomingEvents }: EventStatsProps) => {
             <Calendar className="h-6 w-6" />
           </div>
           <div>
-            <p className="text-sm font-medium opacity-90">Kommende Events</p>
+            <p className="text-sm font-medium opacity-90">Événements à venir</p>
             <p className="text-3xl font-bold">{upcomingEvents}</p>
           </div>
         </div>
@@ -25,7 +25,7 @@ const EventStats = ({ totalEvents, upcomingEvents }: EventStatsProps) => {
             <TrendingUp className="h-6 w-6" />
           </div>
           <div>
-            <p className="text-sm font-medium opacity-90">Total Events</p>
+            <p className="text-sm font-medium opacity-90">Total des événements</p>
             <p className="text-3xl font-bold">{totalEvents}</p>
           </div>
         </div>

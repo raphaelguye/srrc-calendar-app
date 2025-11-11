@@ -90,7 +90,7 @@ const Index = () => {
       <header className="bg-gradient-to-r from-primary to-primary/90 text-primary-foreground py-12 px-4 shadow-lg">
         <div className="container mx-auto max-w-7xl">
           <h1 className="text-4xl md:text-5xl font-bold text-center mb-3">
-            SRRC Events Kalender
+            Calendrier SRRC
           </h1>
           <p className="text-center text-lg opacity-90">
             Swiss Rock'n'Roll Confederation
@@ -135,18 +135,18 @@ const Index = () => {
               <div className="text-center py-16">
                 <p className="text-xl text-muted-foreground">
                   {searchQuery
-                    ? "Keine Events gefunden, die Ihrer Suche entsprechen."
-                    : "Derzeit sind keine Events verfügbar."}
+                    ? "Aucun événement trouvé correspondant à votre recherche."
+                    : "Aucun événement disponible actuellement."}
                 </p>
               </div>
             ) : (
               <>
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-2xl font-semibold text-foreground">
-                    {searchQuery ? "Suchergebnisse" : showUpcomingOnly ? "Kommende Events" : "Alle Events"}
+                    {searchQuery ? "Résultats de recherche" : showUpcomingOnly ? "Événements à venir" : "Tous les événements"}
                   </h2>
                   <span className="text-sm text-muted-foreground font-medium">
-                    {filteredEvents.length} {filteredEvents.length === 1 ? "Event" : "Events"}
+                    {filteredEvents.length} {filteredEvents.length === 1 ? "événement" : "événements"}
                   </span>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -163,7 +163,7 @@ const Index = () => {
       {/* Footer */}
       <footer className="bg-muted/50 border-t border-border mt-16 py-8">
         <div className="container mx-auto max-w-7xl px-4 text-center text-muted-foreground">
-          <p>&copy; 2025 Swiss Rock'n'Roll Confederation. Alle Rechte vorbehalten.</p>
+          <p>&copy; 2025 Swiss Rock'n'Roll Confederation. Tous droits réservés.</p>
         </div>
       </footer>
     </div>

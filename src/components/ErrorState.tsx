@@ -12,14 +12,14 @@ const ErrorState = ({ message, onRetry }: ErrorStateProps) => {
     <div className="flex flex-col items-center justify-center min-h-[400px] gap-6 px-4">
       <Alert variant="destructive" className="max-w-lg">
         <AlertCircle className="h-5 w-5" />
-        <AlertTitle className="text-lg font-semibold">Fehler beim Laden</AlertTitle>
+        <AlertTitle className="text-lg font-semibold">Erreur de chargement</AlertTitle>
         <AlertDescription className="mt-2">
-          {message || "Die Events konnten nicht geladen werden. Bitte versuchen Sie es später erneut."}
+          {message || "Impossible de charger les événements. Veuillez réessayer plus tard."}
         </AlertDescription>
       </Alert>
       {onRetry && (
         <Button onClick={onRetry} variant="default" size="lg">
-          Erneut versuchen
+          Réessayer
         </Button>
       )}
     </div>

@@ -13,14 +13,14 @@ const FilterToggle = ({ showUpcomingOnly, onToggle }: FilterToggleProps) => {
         onClick={() => !showUpcomingOnly && onToggle()}
         className="flex-1 transition-all"
       >
-        Kommende Events
+        Événements à venir
       </Button>
       <Button
         variant={!showUpcomingOnly ? "default" : "ghost"}
         onClick={() => showUpcomingOnly && onToggle()}
         className="flex-1 transition-all"
       >
-        Alle Events
+        Tous les événements
       </Button>
     </div>
   );
