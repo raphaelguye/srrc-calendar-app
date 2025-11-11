@@ -28,7 +28,15 @@ const Index = () => {
     queryFn: async () => {
       const response = await fetch(`${API_BASE_URL}/events`);
       if (!response.ok) throw new Error("Failed to fetch all events");
-      return response.json() as Promise<Event[]>;
+      const json = await response.json();
+      const arr = Array.isArray(json)
+        ? json
+        : Array.isArray(json?.data)
+        ? json.data
+        : Array.isArray(json?.events)
+        ? json.events
+        : [];
+      return arr as Event[];
     },
   });
 
@@ -38,7 +46,15 @@ const Index = () => {
     queryFn: async () => {
       const response = await fetch(`${API_BASE_URL}/events/upcoming`);
       if (!response.ok) throw new Error("Failed to fetch upcoming events");
-      return response.json() as Promise<Event[]>;
+      const json = await response.json();
+      const arr = Array.isArray(json)
+        ? json
+        : Array.isArray(json?.data)
+        ? json.data
+        : Array.isArray(json?.events)
+        ? json.events
+        : [];
+      return arr as Event[];
     },
   });
 
@@ -47,12 +63,12 @@ const Index = () => {
   const error = showUpcomingOnly ? upcomingError : allError;
 
   const filteredEvents = useMemo(() => {
-    if (!displayEvents) return [];
-    
-    if (!searchQuery.trim()) return displayEvents;
+    const base: Event[] = Array.isArray(displayEvents) ? displayEvents : [];
+
+    if (!searchQuery.trim()) return base;
 
     const query = searchQuery.toLowerCase();
-    return displayEvents.filter(
+    return base.filter(
       (event) =>
         event.title.toLowerCase().includes(query) ||
         event.location.toLowerCase().includes(query) ||
