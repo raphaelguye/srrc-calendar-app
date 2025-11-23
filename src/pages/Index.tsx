@@ -2,7 +2,6 @@ import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import EventCard from "@/components/EventCard";
 import SearchBar from "@/components/SearchBar";
-import EventStats from "@/components/EventStats";
 import LoadingState from "@/components/LoadingState";
 import ErrorState from "@/components/ErrorState";
 
@@ -10,6 +9,8 @@ interface Event {
   id: number;
   title: string;
   date: string;
+  startDate: string;
+  endDate: string;
   location: string;
   organizer: string;
   description: string;
@@ -68,14 +69,6 @@ const Index = () => {
 
       {/* Main Content */}
       <main className="container mx-auto max-w-7xl px-4 py-8 space-y-8">
-        {/* Stats Section */}
-        <div className="flex justify-center">
-          <EventStats
-            totalEvents={upcomingEvents?.length || 0}
-            upcomingEvents={upcomingEvents?.length || 0}
-          />
-        </div>
-
         {/* Search */}
         <div className="flex justify-center">
           <SearchBar value={searchQuery} onChange={setSearchQuery} />

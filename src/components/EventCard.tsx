@@ -5,6 +5,8 @@ interface Event {
   id: number;
   title: string;
   date: string;
+  startDate: string;
+  endDate: string;
   location: string;
   organizer: string;
   description: string;
@@ -17,19 +19,33 @@ interface EventCardProps {
 const EventCard = ({ event }: EventCardProps) => {
   const formatDate = (dateString: string) => {
     if (!dateString) return 'Date non disponible';
-    
+
     const date = new Date(dateString);
-    
+
     // Check if date is valid
     if (isNaN(date.getTime())) {
       return dateString; // Return original string if invalid
     }
-    
+
     return new Intl.DateTimeFormat('fr-FR', {
       day: '2-digit',
       month: 'long',
       year: 'numeric'
     }).format(date);
+  };
+
+  const formatDateRange = () => {
+    if (!event.startDate) return 'Date non disponible';
+
+    const start = formatDate(event.startDate);
+    const end = formatDate(event.endDate);
+
+    // If same date or no end date, show only start date
+    if (event.startDate === event.endDate || !event.endDate) {
+      return start;
+    }
+
+    return `${start} - ${end}`;
   };
 
   return (
@@ -40,7 +56,7 @@ const EventCard = ({ event }: EventCardProps) => {
         </CardTitle>
         <CardDescription className="flex items-center gap-2 text-muted-foreground">
           <Calendar className="h-4 w-4 text-primary" />
-          <span className="font-medium">{formatDate(event.date)}</span>
+          <span className="font-medium">{formatDateRange()}</span>
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-3">
