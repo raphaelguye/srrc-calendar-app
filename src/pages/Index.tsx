@@ -56,12 +56,12 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-gradient-to-r from-primary to-primary/90 text-primary-foreground py-12 px-4 shadow-lg">
-        <div className="container mx-auto max-w-7xl">
-          <h1 className="text-4xl md:text-5xl font-bold text-center mb-3">
+      <header className="bg-background/80 backdrop-blur-xl border-b border-border/40 sticky top-0 z-50">
+        <div className="container mx-auto max-w-7xl px-4 py-4">
+          <h1 className="text-2xl md:text-3xl font-semibold text-foreground text-center mb-1">
             Calendrier SRRC
           </h1>
-          <p className="text-center text-lg opacity-90">
+          <p className="text-center text-sm text-muted-foreground">
             Swiss Rock'n'Roll Confederation
           </p>
         </div>
